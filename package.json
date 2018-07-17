@@ -13,5 +13,14 @@
     "S3"
   ],
   "author": "Dustin Lennon",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "discord-akairo": "^7.5.4",
+    "discord.js": "^11.3.2",
+    "jsonfile": "^4.0.0",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "moment-duration-format": "^2.2.2"
+  }
 }
