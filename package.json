@@ -1,0 +1,17 @@
+{
+  "name": "dexcommongobackup",
+  "version": "0.0.1",
+  "description": "Mongo backup to Amazon S3 for Dexcom site",
+  "main": "bot.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Mongo",
+    "Dexcom",
+    "Amazon",
+    "S3"
+  ],
+  "author": "Dustin Lennon",
+  "license": "ISC"
+}
