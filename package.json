@@ -15,12 +15,14 @@
   "author": "Dustin Lennon",
   "license": "ISC",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
     "discord-akairo": "^7.5.4",
     "discord.js": "^11.3.2",
+    "filesize": "^3.6.1",
     "jsonfile": "^4.0.0",
     "lodash": "^4.17.10",
+    "mlab-data-api": "^0.2.2",
     "moment": "^2.22.2",
-    "moment-duration-format": "^2.2.2"
+    "moment-duration-format": "^2.2.2",
+    "ts-node": "^7.0.0"
   }
 }
