@@ -1,0 +1,15 @@
+{
+  "bot": {
+    "prefix": "dmb",
+    "token": "DISCORD BOT TOKEN",
+    "ownerId": "DISCORD OWNER ID"
+  },
+  "mongo": {
+    "host": "MONGO DB HOST ADDRESS",
+    "username": "MONGO DB USERNAME",
+    "password": "MONGO DB PASSWORD",
+    "port": 33103,
+    "database": "MONGO DB DATABASE",
+    "apiKey": "MLAB API KEY"
+  }
+}
