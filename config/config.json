@@ -1,15 +1,15 @@
 {
   "bot": {
     "prefix": "dmb",
-    "token": "DISCORD BOT TOKEN",
-    "ownerId": "DISCORD OWNER ID"
+    "token": "NDY4OTUwMDg0ODMxNDEyMjM0.DjAnVQ.52tLdeGqLi_nVGdmwoj86frPiMg",
+    "ownerId": "49242868987990016"
   },
   "mongo": {
-    "host": "MONGO DB HOST ADDRESS",
-    "username": "MONGO DB USERNAME",
-    "password": "MONGO DB PASSWORD",
+    "host": "ds033103.mlab.com",
+    "username": "dexadmin",
+    "password": "00yang18",
     "port": 33103,
-    "database": "MONGO DB DATABASE",
-    "apiKey": "MLAB API KEY"
+    "database": "dexcom",
+    "apiKey": "nIWrjbKr_-UVXmAv2_-fdfhSof75Zpaz"
   }
 }
