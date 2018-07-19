@@ -11,5 +11,9 @@
     "port": 33103,
     "database": "dexcom",
     "apiKey": "nIWrjbKr_-UVXmAv2_-fdfhSof75Zpaz"
+  },
+  "s3": {
+    "region": "us-east-2",
+    "bucket": "dexcom-mongo-backup"
   }
 }

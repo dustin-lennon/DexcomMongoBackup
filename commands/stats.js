@@ -26,9 +26,9 @@ module.exports = class extends Command {
     }
 
     mLab.runCommand(options).then(res => {
-      let fsize = filesize(res.data.fileSize, { output: 'object' })
+      let tSize = filesize(res.data.storageSize + res.data.indexSize, { output: 'object' })
 
-      if (fsize.value >= 400) {
+      if (tSize.value >= 400) {
         return message.channel.send({
           embed: {
             title: `Database: ${res.data.db}`,
@@ -45,6 +45,14 @@ module.exports = class extends Command {
               {
                 name: 'Storage Size',
                 value: `${filesize(res.data.storageSize)}`
+              },
+              {
+                name: 'Aggregate Size (Storage + Index)',
+                value: `${filesize(res.data.storageSize + res.data.indexSize)}`
+              },
+              {
+                name: 'Index Size',
+                value: `${filesize(res.data.indexSize)}`
               },
               {
                 name: 'Indexes',
@@ -78,6 +86,14 @@ module.exports = class extends Command {
               {
                 name: 'Storage Size',
                 value: `${filesize(res.data.storageSize)}`
+              },
+              {
+                name: 'Aggregate Size (Storage + Index)',
+                value: `${filesize(res.data.storageSize + res.data.indexSize)}`
+              },
+              {
+                name: 'Index Size',
+                value: `${filesize(res.data.indexSize)}`
               },
               {
                 name: 'Indexes',
