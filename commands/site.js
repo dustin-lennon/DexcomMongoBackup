@@ -40,7 +40,6 @@ module.exports = class extends Command {
 
       case 'stop':
         pm2.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`)
           if (data.indexOf('stopped') >= 0) {
             message.channel.send('PM2 successfully stopped your site.')
           }
