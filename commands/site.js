@@ -28,8 +28,6 @@ module.exports = class extends Command {
     switch (args.startStop) {
       case 'start':
         pm2.stdout.on('data', (data) => {
-          console.log(`stdout: ${data}`)
-
           if (data.indexOf('Process successfully started') >= 0) {
             message.channel.send('PM2 successfully started your site.')
           }
@@ -41,7 +39,16 @@ module.exports = class extends Command {
         break
 
       case 'stop':
+        pm2.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`)
+          // if (data.indexOf('Process successfully started') >= 0) {
+          //   message.channel.send('PM2 successfully started your site.')
+          // }
+        })
 
+        pm2.stderr.on('data', (data) => {
+          console.error(`stderr: ${data}`)
+        })
         break
     }
   }
