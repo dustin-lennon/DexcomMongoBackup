@@ -29,6 +29,10 @@ module.exports = class extends Command {
       case 'start':
         pm2.stdout.on('data', (data) => {
           console.log(`stdout: ${data}`)
+
+          if (data.indexOf('Process successfully started') >= 0) {
+            message.channel.send('PM2 successfully started your site.')
+          }
         })
 
         pm2.stderr.on('data', (data) => {
