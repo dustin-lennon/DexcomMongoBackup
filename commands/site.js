@@ -28,11 +28,11 @@ module.exports = class extends Command {
     switch (args.startStop) {
       case 'start':
         pm2.stdout.on('data', (data) => {
-          console.log('Data: ', data)
+          console.log(`stdout: ${data}`)
         })
 
         pm2.stderr.on('data', (data) => {
-          console.error('Data: ', data)
+          console.error(`stderr: ${data}`)
         })
         break
 
