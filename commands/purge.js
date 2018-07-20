@@ -1,5 +1,8 @@
-const { Command } = require('discord-akairo')
-const { spawn } = require('child_process')
+const {
+  Command
+} = require('discord-akairo')
+const MongoClient = require('mongodb').MongoClient
+const Db = require('mongodb').Db
 
 const config = require('../config/config.json')
 
@@ -12,16 +15,28 @@ module.exports = class extends Command {
   }
 
   async exec(message) {
-    // mongo --host <host>:<port> -u <db_user> -p <db_password> <db_name>
-    const mConnect = spawn('mongo', [`--host ${config.mongo.host}:${config.mongo.port}`, `-u ${config.mongo.username}`, `-p ${config.mongo.password}`, `${config.mongo.database}`], { shell: true })
+    MongoClient.connect(`mongodb://${config.mongo.username}:${config.mongo.password}@${config.mongo.host}:${config.mongo.port}/${config.mongo.database}`, {
+      useNewUrlParser: true
+    }, (err, client) => {
+      if (err) {
+        console.error(`There was an error: ${err}`)
+      }
 
-    console.log('mConnect: ', mConnect)
-    mConnect.stdin.on('data', (data) => {
-      console.log(`Data stdin: ${data}`)
-    })
+      const db = client.db(`${config.mongo.database}`)
 
-    mConnect.stderr.on('data', (data) => {
-      console.log(`Data stderr: ${data}`)
+      const deviceCollection = db.collection('devicestatus')
+      const entriesCollection = db.collection('entries')
+      const foodCollection = db.collection('food')
+      const profileCollection = db.collection('profile')
+      const treatmentsCollection = db.collection('treatments')
+
+      console.log('Collections:')
+      console.log('devicestatus: %o', deviceCollection)
+      console.log('entries: %o', entriesCollection)
+      console.log('food: %o', foodCollection)
+      console.log('profile: %o', profileCollection)
+      console.log('treatments: %o', treatmentsCollection)
+
     })
   }
 }
