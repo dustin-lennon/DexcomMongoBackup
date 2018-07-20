@@ -10,7 +10,7 @@ module.exports = class extends Command {
     super('site', {
       aliases: ['site', 's'],
       args: [{
-        id: 'option',
+        id: 'startStop',
         type: ['start', 'stop'],
         prompt: {
           start: 'Are you needing to start or stop pm2? (start, stop)',
@@ -22,10 +22,10 @@ module.exports = class extends Command {
   }
 
   async exec(message, args) {
-    const pm2 = spawn('pm2', `${args.option}`, 'Dexcom')
+    const pm2 = spawn('pm2', [`${args.startStop}`, 'Dexcom'])
 
 
-    switch (args.option) {
+    switch (args.startStop) {
       case 'start':
         pm2.stdout.on('data', (data) => {
           console.log('Data: ', data)
