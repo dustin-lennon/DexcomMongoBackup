@@ -1,9 +1,5 @@
-const {
-  Command
-} = require('discord-akairo')
-const {
-  spawn
-} = require('child_process')
+const { Command } = require('discord-akairo')
+const { spawn } = require('child_process')
 
 module.exports = class extends Command {
   constructor() {

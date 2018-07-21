@@ -63,6 +63,8 @@ module.exports = class extends Command {
         default:
           break
       }
+
+      client.close()
     })
   }
 }
