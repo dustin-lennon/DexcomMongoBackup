@@ -1,16 +1,16 @@
 {
   "bot": {
     "prefix": "dmb",
-    "token": "NDY4OTUwMDg0ODMxNDEyMjM0.DjAnVQ.52tLdeGqLi_nVGdmwoj86frPiMg",
-    "ownerId": "49242868987990016"
+    "token": "bottoken",
+    "ownerId": "discordOwnerId"
   },
   "mongo": {
-    "host": "ds033103.mlab.com",
-    "username": "dexadmin",
-    "password": "00yang18",
+    "host": "mblab.host.address",
+    "username": "mongoUsername",
+    "password": "mongoPassword",
     "port": 33103,
-    "database": "dexcom",
-    "apiKey": "nIWrjbKr_-UVXmAv2_-fdfhSof75Zpaz"
+    "database": "mongoDatabase",
+    "apiKey": "mongoApiKey"
   },
   "s3": {
     "region": "us-east-2",
