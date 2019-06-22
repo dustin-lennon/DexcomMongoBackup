@@ -15,18 +15,19 @@
   "author": "Dustin Lennon",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.277.1",
-    "discord-akairo": "^7.5.4",
-    "discord.js": "^11.3.2",
+    "@types/node": "^11.11.3",
+    "aws-sdk": "^2.421.0",
+    "discord-akairo": "^7.5.5",
+    "discord.js": "^11.4.2",
     "filesize": "^3.6.1",
     "jsonfile": "^4.0.0",
     "lodash": "^4.17.11",
     "mkdirp": "^0.5.1",
     "mlab-data-api": "^0.2.2",
-    "moment": "^2.22.2",
+    "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
-    "mongodb": "^3.1.1",
-    "node-schedule": "^1.3.0",
-    "ts-node": "^7.0.0"
+    "mongodb": "^3.1.13",
+    "node-schedule": "^1.3.2",
+    "ts-node": "^7.0.1"
   }
 }
