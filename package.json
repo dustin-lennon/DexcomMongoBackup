@@ -21,7 +21,7 @@
     "discord.js": "^11.4.2",
     "filesize": "^3.6.1",
     "jsonfile": "^4.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "mkdirp": "^0.5.1",
     "mlab-data-api": "^0.2.2",
     "moment": "^2.24.0",
