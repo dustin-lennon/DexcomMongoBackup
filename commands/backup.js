@@ -6,7 +6,10 @@ const os = require('os')
 const path = require('path')
 const mkdirp = require('mkdirp')
 const AWS = require('aws-sdk')
-const S3 = new AWS.S3()
+
+const S3 = new AWS.S3({
+    apiVersion: '2006-03-01',
+})
 
 module.exports = class extends Command {
   constructor() {
