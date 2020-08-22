@@ -61,6 +61,7 @@ function backupProcess(channel) {
     // Check if writing directory for Windows machine or UNIX/Linux machine
     if (!(os.platform() === 'win32')) {
       console.log(`Backup directory does not currently exist. Creating backup directory to write to...`)
+
       let oldmask = process.umask(0)
 
       mkdirp(`${backupDir}/${dbBackupDir}`, 0o775, (err) => {
@@ -74,6 +75,7 @@ function backupProcess(channel) {
       })
     } else {
       console.log(`Backup directory does not currently exist. Creating backup directory to write to...`)
+
       mkdirp(`${backupDir}/${dbBackupDir}`, (err) => {
         if (err) {
           console.error(`There was a problem creating the backup directory. Check the console log for what the error was.`)
@@ -114,7 +116,12 @@ function backupProcess(channel) {
       })
 
       // Call S3 to retrieve upload file to specified bucket
-      let uploadParams = { Bucket: process.env.AWS_S3_BUCKET, Key: '', Body: '', ACL: 'public-read' }
+      let uploadParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: '',
+        Body: '',
+        ACL: 'public-read'
+      }
       let file = `${backupDir}/${dbBackupDir}.7z`
 
       let fileStream = fs.createReadStream(file)
@@ -145,6 +152,27 @@ function backupProcess(channel) {
           })
         }
       })
+
+      // Clean up any messages older than 8 days said by the bot
+      purgeMessage(channel)
     })
   })
+}
+
+function purgeMessage(channel) {
+  // 8 days prior to today as Epoch time in ms (S3 holds 8 records at a time)
+  const weekDate = +moment().subtract(8, 'days')
+
+  channel.fetchMessages({ limit: 100 })
+    .then(collected => {
+      const botMessages = collected.filter(m => m.author.id === client.user.id)
+
+      botMessages.forEach(msg => {
+        if (msg.createdTimestamp < weekDate) {
+          console.log(`Message: ${msg}`)
+          msg.delete() // Delete the message
+        }
+      })
+    })
+    .catch(err => console.error(`An error has occured error: ${err}`))
 }
