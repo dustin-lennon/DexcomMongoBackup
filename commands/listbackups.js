@@ -39,6 +39,10 @@ module.exports = class extends Command {
             {
               name: 'Uploaded (Last Modified)',
               value: moment(item.LastModified).format('MMM DD YYYY @ hh:mm a Z')
+            },
+            {
+              name: 'Download',
+              value: `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${item.Key}`
             }
           ]
         )
