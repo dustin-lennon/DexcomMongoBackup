@@ -23,7 +23,7 @@ module.exports = class extends Command {
 
     // Base backup directory
     let backupDir = '../mongodb-backups'
-    let dbBackupDir = config.mongo.database + "_" + tstamp
+    let dbBackupDir = `${process.env.MONGO_DB}_${tstamp}`
 
     if (!fs.existsSync(`${backupDir}/${dbBackupDir}`)) {
       // Check if writing directory for Windows machine or UNIX/Linux machine
@@ -65,7 +65,9 @@ module.exports = class extends Command {
 
 function backupProcess(backupDir, dbBackupDir, message) {
   // Run command to do mongo db backup from mlab
-  const mbup = spawn('mongodump', [`-h ${config.mongo.host}:${config.mongo.port}`, `-d ${config.mongo.database}`, `-u ${config.mongo.username}`, `-p ${config.mongo.password}`, `-o ${backupDir}/${dbBackupDir}`])
+  const mbup = spawn('mongodump', [`-h ${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, `-d ${process.env.MONGO_DB}`, `-u ${process.env.MONGO_USERNAME}`, `-p ${process.env.MONGO_PASSWORD}`, `-o ${backupDir}/${dbBackupDir}`], {
+    windowsVerbatimArguments: true
+  })
 
   mbup.stderr.on('data', (data) => {
     message.channel.send(`Running database backup from mLab...`)
@@ -91,7 +93,12 @@ function backupProcess(backupDir, dbBackupDir, message) {
       })
 
       // Call S3 to retrieve upload file to specified bucket
-      let uploadParams = { Bucket: config.s3.bucket, Key: '', Body: '', ACL: 'public-read' }
+      let uploadParams = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: '',
+        Body: '',
+        ACL: 'public-read'
+      }
       let file = `${backupDir}/${dbBackupDir}.7z`
 
       let fileStream = fs.createReadStream(file)

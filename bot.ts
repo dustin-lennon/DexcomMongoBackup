@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv-flow';
+
 import { AkairoClient } from 'discord-akairo'
 import * as moment from 'moment'
 import * as schedule from 'node-schedule'
@@ -11,19 +13,18 @@ const mkdirp = require('mkdirp')
 const AWS = require('aws-sdk')
 const S3 = new AWS.S3()
 
-// Configuration file
-const config = require('./config/config.json')
+dotenv.config();
 
 const client = new AkairoClient({
-  ownerID: config.bot.ownerId,
-  prefix: config.bot.prefix,
+  ownerID: process.env.BOT_OWNER_ID,
+  prefix: process.env.BOT_PREFIX,
   allowMention: false,
   commandDirectory: './commands/',
   inhibitorDirectory: './inhibitors/',
   listenerDirectory: './listeners'
 }, {
-    disableEveryone: true
-  })
+  disableEveryone: true
+})
 
 client.build()
 
@@ -37,7 +38,7 @@ client.commandHandler.resolver.addType('regexDate', (word) => {
   }
 })
 
-client.login(config.bot.token).then(() => {
+client.login(process.env.BOT_TOKEN).then(() => {
   console.log(`Logged in as ${client.user.tag}`)
   const dexChan = client.channels.get('470100327840874496')
 
@@ -51,7 +52,7 @@ function backupProcess(channel) {
 
   // Base backup directory
   let backupDir = '../mongodb-backups'
-  let dbBackupDir = config.mongo.database + "_" + tstamp
+  let dbBackupDir = `${process.env.MONGO_DB}_${tstamp}`
 
   if (!fs.existsSync(`${backupDir}/${dbBackupDir}`)) {
     // Check if writing directory for Windows machine or UNIX/Linux machine
@@ -82,7 +83,7 @@ function backupProcess(channel) {
   }
 
   // Run command to do mongo db backup from mlab
-  const mbup = spawn('mongodump', [`-h ${config.mongo.host}:${config.mongo.port}`, `-d ${config.mongo.database}`, `-u ${config.mongo.username}`, `-p ${config.mongo.password}`, `-o ${backupDir}/${dbBackupDir}`], { windowsVerbatimArguments: true })
+  const mbup = spawn('mongodump', [`-h ${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, `-d ${process.env.MONGO_DB}`, `-u ${process.env.MONGO_USERNAME}`, `-p ${process.env.MONGO_PASSWORD}`, `-o ${backupDir}/${dbBackupDir}`], { windowsVerbatimArguments: true })
 
   channel.send(`Running database backup from mLab...`)
   mbup.stderr.on('data', async (data) => {
@@ -110,7 +111,7 @@ function backupProcess(channel) {
       })
 
       // Call S3 to retrieve upload file to specified bucket
-      let uploadParams = { Bucket: config.s3.bucket, Key: '', Body: '', ACL: 'public-read' }
+      let uploadParams = { Bucket: process.env.AWS_S3_BUCKET, Key: '', Body: '', ACL: 'public-read' }
       let file = `${backupDir}/${dbBackupDir}.7z`
 
       let fileStream = fs.createReadStream(file)
