@@ -11,9 +11,12 @@ const os = require('os')
 const path = require('path')
 const mkdirp = require('mkdirp')
 const AWS = require('aws-sdk')
-const S3 = new AWS.S3()
 
 dotenv.config();
+
+const S3 = new AWS.S3({
+  apiVerion: '2006-03-01'
+})
 
 const client = new AkairoClient({
   ownerID: process.env.BOT_OWNER_ID,
