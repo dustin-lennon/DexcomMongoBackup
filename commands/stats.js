@@ -2,8 +2,6 @@ const { Command } = require('discord-akairo')
 const MongoClient = require('mongodb').MongoClient
 const filesize = require('filesize')
 
-const config = require('../config/config.json')
-
 module.exports = class extends Command {
   constructor() {
     super('stats', {

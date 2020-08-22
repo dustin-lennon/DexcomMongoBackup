@@ -8,8 +8,6 @@ const mkdirp = require('mkdirp')
 const AWS = require('aws-sdk')
 const S3 = new AWS.S3()
 
-const config = require('../config/config.json')
-
 module.exports = class extends Command {
   constructor() {
     super('backup', {
