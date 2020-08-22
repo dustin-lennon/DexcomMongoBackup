@@ -30,14 +30,14 @@ module.exports = class extends Command {
   }
 
   async exec(message, args) {
-    MongoClient.connect(`mongodb://${config.mongo.username}:${config.mongo.password}@${config.mongo.host}:${config.mongo.port}/${config.mongo.database}`, {
+    MongoClient.connect(`mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, {
       useNewUrlParser: true
     }, (err, client) => {
       if (err) {
         console.error(`There was an error: ${err}`)
       }
 
-      const db = client.db(`${config.mongo.database}`)
+      const db = client.db(`${process.env.MONGO_DB}`)
 
       this[args.collectionName] = db.collection(args.collectionName)
 

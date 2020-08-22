@@ -19,6 +19,7 @@
     "aws-sdk": "^2.421.0",
     "discord-akairo": "^7.5.5",
     "discord.js": "^11.4.2",
+    "dotenv-flow": "^3.2.0",
     "filesize": "^3.6.1",
     "jsonfile": "^4.0.0",
     "lodash": "^4.17.11",
