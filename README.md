@@ -4,7 +4,7 @@ This is a Discord Bot I created to handle daily backups of my MongoDB for my Nig
 
 If you like to use this bot yourself:
 1. Rename in the config folder `.env.exmaple` to `.env`
-2. Open the file and modify
+2. Open the file and modify  
   a. `BOT_TOKEN`: Your Discord bot token  
   b. `BOT_OWNER_ID`: Your Discord owner Id  
   c. `MONGO_HOST`: Your mblab host address  
