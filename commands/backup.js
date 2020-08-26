@@ -64,18 +64,20 @@ function backupProcess(backupDir, dbBackupDir, message) {
     }
   }
 
-  // Run command to do mongo db backup from mlab
-  const mbup = spawn('mongodump', [`-h ${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, `-d ${process.env.MONGO_DB}`, `-u ${process.env.MONGO_USERNAME}`, `-p ${process.env.MONGO_PASSWORD}`, `-o ${backupDir}/${dbBackupDir}`], {
+  // Run command to do mongo db backup from MongoDB Atlas
+  const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}`
+  const mbup = spawn('mongodump', [`--uri ${uri}`, `-o ${backupDir}/${dbBackupDir}`], {
     windowsVerbatimArguments: true
   })
 
-  message.channel.send(`Running database backup from mLab...`)
+  message.channel.send(`Running database backup from MongoDB Atlas...`)
   mbup.stderr.on('data', async (data) => {
     await console.log(`${data}`)
   })
 
   mbup.on('close', (code) => {
     console.log(`Mongodump exited with code ${code}`)
+
     if (code === 0) {
       message.channel.send(`Database backup completed.`)
 
@@ -133,7 +135,7 @@ function backupProcess(backupDir, dbBackupDir, message) {
         })
       })
     } else {
-      message.channel.send(`There was an issue performing the mLab backup`)
+      message.channel.send(`There was an issue performing the MongoDB Atlas backup`)
     }
   })
 }
