@@ -16,14 +16,14 @@ module.exports = class extends Command {
     MongoClient.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true
-    }, (err, client) => {
+    }, async (err, client) => {
       if (err) {
         console.error(`There was an error: ${err}`)
       }
 
-      const db = client.db(`${process.env.MONGO_DB}`)
+      const db = await client.db(`${process.env.MONGO_DB}`)
 
-      db.command({ 'dbStats': 1 }, (err, res) => {
+      await db.command({ 'dbStats': 1 }, (err, res) => {
         if (err) {
           console.error(`There was an error: ${err}`)
         } else {
