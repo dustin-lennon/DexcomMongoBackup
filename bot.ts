@@ -87,10 +87,13 @@ function backupProcess(channel) {
     }
   }
 
-  // Run command to do mongo db backup from mlab
-  const mbup = spawn('mongodump', [`-h ${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, `-d ${process.env.MONGO_DB}`, `-u ${process.env.MONGO_USERNAME}`, `-p ${process.env.MONGO_PASSWORD}`, `-o ${backupDir}/${dbBackupDir}`], { windowsVerbatimArguments: true })
+  // Run command to do mongo db backup from MongoDB Atlas
+  const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}`
+  const mbup = spawn('mongodump', [`--uri ${uri}`, `-o ${backupDir}/${dbBackupDir}`], {
+    windowsVerbatimArguments: true
+  })
 
-  channel.send(`Running database backup from mLab...`)
+  channel.send(`Running database backup from MongoDB Atlas...`)
   mbup.stderr.on('data', async (data) => {
     await console.log(`${data}`)
   })
