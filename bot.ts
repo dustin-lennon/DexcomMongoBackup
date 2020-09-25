@@ -89,7 +89,7 @@ function backupProcess(channel) {
 
   // Run command to do mongo db backup from MongoDB Atlas
   const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}`
-  const mbup = spawn('mongodump', [`--uri ${uri}`, `-o ${backupDir}/${dbBackupDir}`], {
+  const mbup = spawn('mongodump', [`--uri=${uri}`, `-o ${backupDir}/${dbBackupDir}`], {
     windowsVerbatimArguments: true
   })
 
