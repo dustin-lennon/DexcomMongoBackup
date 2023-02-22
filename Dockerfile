@@ -2,7 +2,7 @@
 #    Base Stage    #
 # ================ #
 
-FROM node:16-buster-slim as base
+FROM node:19-buster-slim as base
 
 WORKDIR /opt/app
 
@@ -11,9 +11,13 @@ ENV CI=true
 
 RUN apt-get update && \
     apt-get upgrade -y --no-install-recommends && \
-    apt-get install -y --no-install-recommends build-essential python3 libfontconfig1 dumb-init && \
+    apt-get install -y --no-install-recommends build-essential python3 libfontconfig1 dumb-init wget ca-certificates \
+    libgssapi-krb5-2 libkrb5-3 libk5crypto3 libkrb5support0 libkeyutils1 p7zip-full && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-debian10-x86_64-100.6.1.deb -O /var/tmp/mongodb-tools.deb && \
+    dpkg -i /var/tmp/mongodb-tools.deb && \
+    rm /var/tmp/mongodb-tools.deb
 
 # ------------------------------------ #
 #   Conditional steps for end-users    #
