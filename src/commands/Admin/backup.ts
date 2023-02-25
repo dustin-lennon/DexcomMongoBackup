@@ -1,7 +1,6 @@
-import { PermissionFlagsBits, TextChannel } from 'discord.js';
+import { PermissionFlagsBits, TextChannel, type CommandInteraction } from 'discord.js';
 import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
 import { MongoBackup } from '../../lib/backupDB';
-import type { CommandInteraction } from 'discord.js';
 
 export class BackupCommand extends Command {
     public constructor(context: Command.Context, options: Command.Options) {
