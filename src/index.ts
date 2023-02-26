@@ -4,6 +4,7 @@ import { schedule } from 'node-cron';
 import { backupTime } from './lib/constants';
 import { MongoBackup } from './lib/backupDB';
 import { DexcomMongoClient } from './DexcomMongoClient';
+import { envParseString } from '@skyra/env-utilities';
 
 const client = new DexcomMongoClient();
 
@@ -13,13 +14,13 @@ const main = async () => {
         await client.login();
         client.logger.info('logged in');
 
-        const dexChan = await client.channels.fetch(process.env.BOT_REPORT_CHANNEL_ID);
+        const dexChan = await client.channels.fetch(envParseString('BOT_REPORT_CHANNEL_ID'));
 
         // Make sure the channel is text based - why wouldn't it be?
         if (dexChan?.isTextBased()) {
             // Run the scheduled task that will run nightly at 11:59 pm
             schedule(backupTime, () => {
-                backupDBProcess(dexChan)
+                backupDBProcess(dexChan);
             });
         }
     } catch (error) {

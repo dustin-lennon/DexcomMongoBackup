@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { envParseString } from '@skyra/env-utilities';
 
 const dev = process.env.NODE_ENV !== 'production';
 const S3 = new S3Client({
@@ -28,7 +29,7 @@ export class MongoBackup {
 
         // Base backup directory
         let backupDir = path.resolve('./mongodb-backups');
-        let dbBackupDir = `${process.env.MONGO_DB}_${tstamp}`;
+        let dbBackupDir = `${envParseString('MONGO_DB')}_${tstamp}`;
 
         const llc = dev ? magentaBright : white;
         const blc = dev ? magenta : blue;
@@ -109,7 +110,7 @@ ${line02} ${pad}${blc(`Error: ${err.message}`)}
         }
 
         // Run command to do mongo db backup from MongoDB Atlas
-        const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB}`;
+        const uri = `mongodb+srv://${envParseString('MONGO_USERNAME')}:${envParseString('MONGO_PASSWORD')}@${envParseString('MONGO_HOST')}/${envParseString('MONGO_DB')}`;
         const mbup = spawn('mongodump', [`--uri=${uri}`, `-o ${backupDir}/${dbBackupDir}`], {
             windowsVerbatimArguments: true
         });
@@ -146,7 +147,7 @@ ${line02} ${pad}${blc(`Error: ${err.message}`)}
 
                 // Call S3 to retrieve upload file to specified bucket
                 const uploadParams: { Bucket: string; Key: string; Body: string | fs.ReadStream; ACL: string } = {
-                    Bucket: process.env.AWS_S3_BUCKET,
+                    Bucket: envParseString('AWS_S3_BUCKET'),
                     Key: '',
                     Body: '',
                     ACL: 'public-read'
