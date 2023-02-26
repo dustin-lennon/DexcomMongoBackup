@@ -48,6 +48,7 @@ export class dbStats extends Command {
                 embed //
                     .setTitle(`Database: ${statsResult.db}`)
                     .setDescription('Current statistics for this database')
+                    .setColor(0xFFFF00)
                     .addFields(
                         { name: 'Collections', value: `${statsResult.collections}` },
                         { name: 'Data Size', value: `${filesize(statsResult.dataSize, { base: 2 })}` },
@@ -62,6 +63,7 @@ export class dbStats extends Command {
                 embed //
                     .setTitle(`Database: ${statsResult.db}`)
                     .setDescription('Current statistics for this database')
+                    .setColor(0x00FF00)
                     .addFields(
                         { name: 'Collections', value: `${statsResult.collections}` },
                         { name: 'Data Size', value: `${filesize(statsResult.dataSize, { base: 2 })}` },
