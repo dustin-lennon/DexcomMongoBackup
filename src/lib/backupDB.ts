@@ -2,7 +2,7 @@ import { TextChannel, ChannelType, ThreadAutoArchiveDuration } from 'discord.js'
 import { blue, magenta, magentaBright, white } from 'colorette';
 import { mkdirp } from 'mkdirp'
 import { spawn } from 'child_process';
-import { S3Client, } from "@aws-sdk/client-s3";
+import { S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
 import * as moment from 'moment';
