@@ -1,37 +1,11 @@
 import './lib/setup';
-import { LogLevel, SapphireClient } from '@sapphire/framework';
-import { GatewayIntentBits, Partials } from 'discord.js';
+
 import { schedule } from 'node-cron';
 import { backupTime } from './lib/constants';
 import { MongoBackup } from './lib/backupDB';
+import { DexcomMongoClient } from './DexcomMongoClient';
 
-const client = new SapphireClient({
-    defaultPrefix: process.env.DEFAULT_PREFIX,
-    regexPrefix: /^(hey +)?bot[,! ]/i,
-    caseInsensitiveCommands: true,
-    logger: {
-        level: LogLevel.Debug
-    },
-    shards: 'auto',
-    intents: [
-        GatewayIntentBits.DirectMessageReactions,
-        GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.GuildBans,
-        GatewayIntentBits.GuildEmojisAndStickers,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.MessageContent
-    ],
-    partials: [Partials.Channel],
-    loadMessageCommandListeners: true,
-    defaultCooldown: {
-        limit: 1,
-        delay: 3
-    }
-});
+const client = new DexcomMongoClient();
 
 const main = async () => {
     try {
@@ -59,7 +33,7 @@ const backupDBProcess = async (channel) => {
     const backupProcess = new MongoBackup(channel);
 
     await backupProcess.backup();
-    await backupProcess.threadPurge();
+    // await backupProcess.threadPurge();
 }
 
-main();
+void main();

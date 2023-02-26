@@ -1,17 +1,19 @@
 {
 	"extends": "@sapphire/ts-config",
 	"compilerOptions": {
-		"rootDir": "./src",
-		"outDir": "dist",
-		"incremental": true,
-		"tsBuildInfoFile": "dist/.tsbuildinfo",
 		"baseUrl": "./",
-		"types": ["node"],
+		"esModuleInterop": false,
+		"experimentalDecorators": true,
+		"lib": ["esnext"],
+		"noImplicitReturns": false,
+		"noImplicitAny": false,
+		"outDir": "dist",
+		"removeComments": false,
+		"incremental": true,
+		"rootDir": "./src",
 		"skipLibCheck": true,
 		"strict": false,
-		"lib": ["ESNext"],
-		"target": "ESNext",
-		"esModuleInterop": false
+		"tsBuildInfoFile": "dist/.tsbuildinfo",
 	},
 	"include": ["src"],
 	"exclude": ["node_modules/*", "dist/*"]
