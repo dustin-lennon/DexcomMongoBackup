@@ -1,15 +1,12 @@
 import { PermissionFlagsBits, TextChannel, type CommandInteraction } from 'discord.js';
 import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
 import { MongoBackup } from '../../lib/backupDB';
+import { ApplyOptions } from '@sapphire/decorators';
 
-export class BackupCommand extends Command {
-    public constructor(context: Command.Context, options: Command.Options) {
-        super(context, {
-            ...options,
-            description: 'Manually backs up mongo database for Nightscout website'
-        });
-    }
-
+@ApplyOptions<Command.Options>({
+    description: 'Manually backs up mongo database for Nightscout website'
+})
+export class UserCommand extends Command {
     public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
         registry.registerChatInputCommand((builder) => {
             builder //

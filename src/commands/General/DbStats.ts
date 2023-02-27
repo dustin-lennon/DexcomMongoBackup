@@ -1,21 +1,18 @@
+import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
 import { envParseNumber, envParseString } from '@skyra/env-utilities';
 import { EmbedBuilder } from 'discord.js';
 import { filesize } from 'filesize';
 import { MongoClient } from 'mongodb';
 
-export class dbStats extends Command {
+@ApplyOptions<Command.Options>({
+    description: 'Display MongoDB statistics for Nightscout site'
+})
+export class UserCommand extends Command {
     private uri = `mongodb+srv://${envParseString('MONGO_USERNAME')}:${envParseString('MONGO_PASSWORD')}` +
         `@${envParseString('MONGO_HOST')}/${envParseString('MONGO_DB')}?retryWrites=true&w=majority`;
 
     private mongoClient = new MongoClient(this.uri);
-
-    public constructor(context: Command.Context, options: Command.Options) {
-        super(context, {
-            ...options,
-            description: 'Display MongoDB statistics for Nightscout site'
-        });
-    }
 
     public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
         registry.registerChatInputCommand((builder) => {

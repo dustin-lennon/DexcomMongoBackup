@@ -1,14 +1,11 @@
+import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
 import { PermissionFlagsBits } from 'discord.js';
 
+@ApplyOptions<Command.Options>({
+    description: 'Kill the bot'
+})
 export class DieCommand extends Command {
-    public constructor(context: Command.Context, options: Command.Options) {
-        super(context, {
-            ...options,
-            description: 'Kill the bot'
-        });
-    }
-
     public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
         registry.registerChatInputCommand((builder) => {
             builder //

@@ -3,20 +3,17 @@ import { envParseString } from '@skyra/env-utilities';
 import { ListObjectsCommand, S3Client } from "@aws-sdk/client-s3";
 import { filesize } from 'filesize';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
+import { ApplyOptions } from '@sapphire/decorators';
 
 import * as moment from 'moment';
 
-export class listBackups extends Command {
+@ApplyOptions<Command.Options>({
+    description: 'List backups available for download'
+})
+export class UserCommand extends Command {
     private S3 = new S3Client({
         apiVersion: '2006-03-01'
     });
-
-    public constructor(context: Command.Context, options: Command.Options) {
-        super(context, {
-            ...options,
-            description: 'List backups available for download'
-        });
-    }
 
     public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
         registry.registerChatInputCommand((builder) => {
