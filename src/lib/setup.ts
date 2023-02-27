@@ -30,5 +30,6 @@ declare module '@skyra/env-utilities' {
         MONGO_API_KEY: string;
         MONGO_DB_MAX_SIZE: NumberString;
         AWS_S3_BUCKET: string;
+        AWS_REGION: string;
     }
 }

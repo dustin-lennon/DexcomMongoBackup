@@ -111,7 +111,7 @@ ${line02} ${pad}${blc(`Error: ${err.message}`)}
 
         // Run command to do mongo db backup from MongoDB Atlas
         const uri = `mongodb+srv://${envParseString('MONGO_USERNAME')}:${envParseString('MONGO_PASSWORD')}@${envParseString('MONGO_HOST')}/${envParseString('MONGO_DB')}`;
-        const mbup = spawn('mongodump', [`--uri=${uri}`, `-o ${backupDir}/${dbBackupDir}`], {
+        const mbup = spawn('mongodump', [`--uri=${uri}`, '-o', `${backupDir}/${dbBackupDir}`], {
             windowsVerbatimArguments: true
         });
 
