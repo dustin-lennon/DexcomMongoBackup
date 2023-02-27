@@ -6,7 +6,6 @@ import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 
 import * as moment from 'moment';
 
-
 export class listBackups extends Command {
     private S3 = new S3Client({
         apiVersion: '2006-03-01'
