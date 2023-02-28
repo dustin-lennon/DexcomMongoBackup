@@ -5,3 +5,4 @@ export const rootDir = join(__dirname, '..', '..');
 export const srcDir = join(rootDir, 'src');
 export const backupTime = '59 23 * * *';
 export const FetchUserAgent = `Sapphire Application Commands/2.0.0 (node-fetch) ${os.platform()}/${os.release()}`;
+export const RandomLoadingMessage = ['Computing...', 'Thinking...', 'Cooking some food', 'Give me a moment', 'Loading...'];
