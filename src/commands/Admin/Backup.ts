@@ -1,23 +1,23 @@
-import { PermissionFlagsBits, TextChannel, type CommandInteraction } from 'discord.js';
-import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
+import type { TextChannel } from 'discord.js';
+import { Command } from '@sapphire/framework';
 import { MongoBackup } from '../../lib/backupDB';
 import { ApplyOptions } from '@sapphire/decorators';
 
 @ApplyOptions<Command.Options>({
-    description: 'Manually backs up mongo database for Nightscout website'
+    description: 'Manually backs up mongo database for Nightscout website',
+    preconditions: ['OwnerOnly'],
 })
 export class UserCommand extends Command {
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+    public override registerApplicationCommands(registry: Command.Registry) {
         registry.registerChatInputCommand((builder) => {
             builder //
                 .setName(this.name)
                 .setDescription(this.description)
                 .setDMPermission(false)
-                .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         });
     }
 
-    public override async chatInputRun(interaction: CommandInteraction) {
+    public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const dexChan = await interaction.channel.fetch() as TextChannel;
 
         if (dexChan?.isTextBased()) {

@@ -1,18 +1,17 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
-import { PermissionFlagsBits } from 'discord.js';
+import { Command } from '@sapphire/framework';
 
 @ApplyOptions<Command.Options>({
-    description: 'Kill the bot'
+    description: 'Kill the bot',
+    preconditions: ['OwnerOnly'],
 })
-export class DieCommand extends Command {
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+export class UserCommand extends Command {
+    public override registerApplicationCommands(registry: Command.Registry) {
         registry.registerChatInputCommand((builder) => {
             builder //
                 .setName(this.name)
                 .setDescription(this.description)
                 .setDMPermission(false)
-                .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         });
     }
 

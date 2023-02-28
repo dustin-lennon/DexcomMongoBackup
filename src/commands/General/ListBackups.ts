@@ -1,4 +1,4 @@
-import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
+import { Command } from '@sapphire/framework';
 import { envParseString } from '@skyra/env-utilities';
 import { ListObjectsCommand, S3Client } from "@aws-sdk/client-s3";
 import { filesize } from 'filesize';
@@ -15,7 +15,7 @@ export class UserCommand extends Command {
         apiVersion: '2006-03-01'
     });
 
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+    public override registerApplicationCommands(registry: Command.Registry) {
         registry.registerChatInputCommand((builder) => {
             builder //
                 .setName(this.name)

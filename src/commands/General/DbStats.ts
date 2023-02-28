@@ -1,5 +1,5 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
+import { Command } from '@sapphire/framework';
 import { envParseNumber, envParseString } from '@skyra/env-utilities';
 import { EmbedBuilder } from 'discord.js';
 import { filesize } from 'filesize';
@@ -14,7 +14,7 @@ export class UserCommand extends Command {
 
     private mongoClient = new MongoClient(this.uri);
 
-    public override registerApplicationCommands(registry: ApplicationCommandRegistry) {
+    public override registerApplicationCommands(registry: Command.Registry) {
         registry.registerChatInputCommand((builder) => {
             builder //
                 .setName(this.name)
