@@ -8,7 +8,7 @@ const dev = process.env.NODE_ENV !== 'production';
 export class UserEvent extends Listener {
 	private readonly style = dev ? yellow : blue;
 
-	public run():void {
+	public run(): void {
 		this.printBanner();
 		this.printStoreDebugInformation();
 	}
@@ -30,7 +30,13 @@ export class UserEvent extends Listener {
 		console.log(
 			String.raw`
 ${line01} ${pad}${blc(`Bot version: ${process.env.npm_package_version}`)}
-${line02} ${pad}${blc(`Memory Usage: ${(process.memoryUsage().heapUsed / 1024 /1024).toFixed(2)} MiB / ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MiB of RAM`)}
+${line02} ${pad}${blc(
+				`Memory Usage: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MiB / ${(
+					process.memoryUsage().heapTotal /
+					1024 /
+					1024
+				).toFixed(2)} MiB of RAM`
+			)}
 ${line03} ${pad}[${success}] Gateway
 ${line04}${dev ? ` ${pad}${blc('<')}${llc('/')}${blc('>')} ${llc('DEVELOPMENT MODE')}` : ''}
 		`.trim()
