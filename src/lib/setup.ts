@@ -20,16 +20,16 @@ inspect.defaultOptions.depth = 1;
 colorette.createColors({ useColor: true });
 
 declare module '@skyra/env-utilities' {
-    interface Env {
-        BOT_OWNER_IDS: ArrayString;
-        BOT_REPORT_CHANNEL_ID: string;
-        MONGO_HOST: string;
-        MONGO_USERNAME: string;
-        MONGO_PASSWORD: string;
-        MONGO_DB: string;
-        MONGO_API_KEY: string;
-        MONGO_DB_MAX_SIZE: NumberString;
-        AWS_S3_BUCKET: string;
-        AWS_REGION: string;
-    }
+	interface Env {
+		BOT_OWNER_IDS: ArrayString;
+		BOT_REPORT_CHANNEL_ID: string;
+		MONGO_HOST: string;
+		MONGO_USERNAME: string;
+		MONGO_PASSWORD: string;
+		MONGO_DB: string;
+		MONGO_API_KEY: string;
+		MONGO_DB_MAX_SIZE: NumberString;
+		AWS_S3_BUCKET: string;
+		AWS_REGION: string;
+	}
 }
