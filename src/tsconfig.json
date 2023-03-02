@@ -1,20 +1,24 @@
 {
-	"extends": "@sapphire/ts-config",
+	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
-		"baseUrl": "./",
+		"baseUrl": ".",
 		"esModuleInterop": false,
 		"experimentalDecorators": true,
 		"noImplicitReturns": false,
 		"noImplicitAny": false,
 		"noUnusedLocals":false,
 		"noUnusedParameters":false,
-		"outDir": "dist",
-		"removeComments": false,
-		"rootDir": "./src",
+		"outDir": "../dist",
+		"removeComments": true,
+		"rootDir": ".",
 		"skipLibCheck": true,
 		"strict": false,
 		"tsBuildInfoFile": "dist/.tsbuildinfo",
+		"paths": {
+			"#lib/*": ["lib/*"],
+			"#utils/*": ["lib/util/*"]
+		}
 	},
-	"include": ["src"],
-	"exclude": ["node_modules/*", "dist/*"]
+	"include": [".", "./**/*.json"],
+	"exclude": ["./tsconfig.json"]
 }

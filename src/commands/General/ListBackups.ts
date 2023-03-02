@@ -64,7 +64,6 @@ export class UserCommand extends Command {
 				const paginatedMessage = new PaginatedMessage();
 
 				for (let i = 0; i < pagesNum; i++) {
-					console.log(`fieldItemContents: ${JSON.stringify(fieldItemContents[i])}`);
 					paginatedMessage.addPageEmbed((embed) =>
 						embed //
 							.setColor('Gold')

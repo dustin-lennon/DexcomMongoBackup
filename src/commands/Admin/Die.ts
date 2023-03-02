@@ -3,7 +3,7 @@ import { Command } from '@sapphire/framework';
 
 @ApplyOptions<Command.Options>({
 	description: 'Kill the bot',
-	preconditions: ['OwnerOnly']
+	preconditions: ['BotOwner']
 })
 export class UserCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {

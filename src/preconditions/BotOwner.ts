@@ -1,8 +1,6 @@
+import { OWNERS } from '#lib/setup';
 import { AllFlowsPrecondition, ContextMenuCommand, MessageCommand, PreconditionContext, PreconditionResult } from '@sapphire/framework';
 import type { CacheType, CommandInteraction, ContextMenuCommandInteraction, Message, Snowflake } from 'discord.js';
-import { envParseArray } from '@skyra/env-utilities';
-
-const OWNERS: string[] = envParseArray('BOT_OWNER_IDS');
 
 export class UserPrecondition extends AllFlowsPrecondition {
 	messageRun(message: Message<boolean>, command: MessageCommand, context: PreconditionContext): PreconditionResult {
@@ -30,6 +28,6 @@ export class UserPrecondition extends AllFlowsPrecondition {
 
 declare module '@sapphire/framework' {
 	interface Preconditions {
-		OwnerOnly: never;
+		BotOwner: never;
 	}
 }

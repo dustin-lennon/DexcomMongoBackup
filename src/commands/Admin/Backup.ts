@@ -5,7 +5,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 
 @ApplyOptions<Command.Options>({
 	description: 'Manually backs up mongo database for Nightscout website',
-	preconditions: ['OwnerOnly']
+	preconditions: ['BotOwner']
 })
 export class UserCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {

@@ -11,18 +11,19 @@
     "Amazon S3"
   ],
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "start": "node dist/index.js",
-    "dev": "run-s build start",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "predocker:watch": "yarn install",
-    "docker:watch": "tsc-watch --onSuccess \"node ./dist/index.js\""
+    "build": "tsc -b src",
+    "dev": "yarn build && yarn start",
+    "watch": "tsc -b src -w",
+    "watch:start": "tsc-watch -b src --onSuccess \"yarn start \"",
+    "clean": "node scripts/build/clean.mjs",
+    "start": "node --enable-source-maps dist/index.js",
+    "update": "yarn upgrade-interactive",
+    "format": "prettier --write \"src/**/*.{js,ts,json}\""
   },
   "dependencies": {
     "@aws-sdk/abort-controller": "^3.272.0",
-    "@aws-sdk/client-s3": "^3.279.0",
-    "@aws-sdk/lib-storage": "^3.279.0",
+    "@aws-sdk/client-s3": "^3.281.0",
+    "@aws-sdk/lib-storage": "^3.281.0",
     "@sapphire/decorators": "^6.0.0",
     "@sapphire/discord-utilities": "^3.0.0",
     "@sapphire/discord.js-utilities": "6.0.2",
@@ -38,7 +39,7 @@
     "@sapphire/utilities": "^3.11.0",
     "@skyra/env-utilities": "^1.1.0",
     "@skyra/http-framework": "^0.15.2",
-    "aws-sdk": "^2.1323.0",
+    "aws-sdk": "^2.1325.0",
     "discord.js": "^14.7.1",
     "filesize": "^10.0.6",
     "jsonfile": "^6.1.0",
@@ -47,7 +48,8 @@
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "mongodb": "^5.1.0",
-    "node-cron": "^3.0.2"
+    "node-cron": "^3.0.2",
+    "tslib": "^2.5.0"
   },
   "resolutions": {
     "discord-api-types": "0.37.20"
@@ -62,16 +64,26 @@
     "@types/node": "^18.14.2",
     "@types/node-cron": "^3.0.7",
     "@types/ws": "^8.5.4",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
+    "pretty-quick": "^3.1.3",
+    "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.0",
     "typescript": "^4.9.5"
   },
   "prettier": "@sapphire/prettier-config",
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "imports": {
+    "#lib/*": "./dist/lib/*.js",
+    "#utils/*": "./dist/lib/util/*.js"
+  },
+  "engines": {
+    "node": "^16",
+    "npm": "^7"
+  }
 }
