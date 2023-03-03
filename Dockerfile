@@ -19,75 +19,48 @@ RUN apt-get update && \
     dpkg -i /var/tmp/mongodb-tools.deb && \
     rm /var/tmp/mongodb-tools.deb
 
-# ------------------------------------ #
-#   Conditional steps for end-users    #
-# ------------------------------------ #
-
-# Enable one of the following depending on whether you use yarn or npm, then remove the other one
 COPY --chown=node:node yarn.lock .
-
-# If you use Yarn v3 then enable the following lines:
+COPY --chown=node:node package.json .
 COPY --chown=node:node .yarnrc.yml .
 COPY --chown=node:node .yarn/ .yarn/
-
-# If you have an additional "tsconfig.base.json" file then enable the following line:
-# COPY --chown=node:node tsconfig.base.json tsconfig.base.json
-
-# If you require additional NodeJS flags then specify them here
-ENV NODE_OPTIONS="--enable-source-maps"
-
-# ---------------------------------------- #
-#   End Conditional steps for end-users    #
-# ---------------------------------------- #
-
-COPY --chown=node:node package.json .
-COPY --chown=node:node tsconfig.json .
 
 RUN sed -i 's/"prepare": "husky install\( .github\/husky\)\?"/"prepare": ""/' ./package.json
 
 ENTRYPOINT ["dumb-init", "--"]
 
-# =================== #
-#  Development Stage  #
-# =================== #
-
-# Development, used for development only (defaults to watch command)
-FROM base as development
-
-ENV NODE_ENV="development"
-
-USER node
-
-CMD [ "npm", "run", "docker:watch"]
-
 # ================ #
 #   Builder Stage  #
 # ================ #
 
-# Build stage for production
-FROM base as build
+FROM base as builder
 
-RUN yarn install
+ENV NODE_ENV="development"
 
-COPY . /opt/app
+COPY --chown=node:node tsconfig.base.json tsconfig.base.json
+COPY --chown=node:node scripts/ scripts/
+COPY --chown=node:node src/ src/
 
-RUN npm run build
+RUN yarn install --immutable
+RUN yarn run build
 
-# ==================== #
-#   Production Stage   #
-# ==================== #
+# ================ #
+#   Runner Stage   #
+# ================ #
 
-# Production image used to  run the bot in production, only contains node_modules & dist contents.
-FROM base as production
+FROM base AS runner
 
 ENV NODE_ENV="production"
 
-COPY --from=build /opt/app/dist /opt/app/dist
-COPY --from=build /opt/app/node_modules /opt/app/node_modules
-COPY --from=build /opt/app/package.json /opt/app/package.json
+# If you require additional NodeJS flags then specify them here
+ENV NODE_OPTIONS="--enable-source-maps --max_old_space_size=4096"
 
-RUN chown node:node /opt/app/
+COPY --chown=node:node scripts/workerTsLoader.js scripts/workerTsLoader.js
+COPY --chown=node:node src/.env src/.env
+COPY --chown=node:node --from=builder /opt/app/dist dist
+
+RUN yarn workspaces focus --all --production
+RUN chown node:node /opt/app
 
 USER node
 
-CMD [ "npm", "run", "start"]
+CMD [ "yarn", "run", "start" ]
