@@ -37,7 +37,7 @@ export class UserCommand extends Command {
 				.addStringOption((option) =>
 					option //
 						.setName('collection-name')
-						.setDescription('What collection are you purging data from? (entries, devicestatus, treatments)')
+						.setDescription('What collection are you query data from? (entries, devicestatus, treatments)')
 						.setChoices(...this.#collectionChoices)
 						.setRequired(true)
 				)
