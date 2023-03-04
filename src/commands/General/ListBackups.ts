@@ -4,8 +4,7 @@ import { ListObjectsCommand, S3Client } from '@aws-sdk/client-s3';
 import { filesize } from 'filesize';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { ApplyOptions } from '@sapphire/decorators';
-
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 @ApplyOptions<Command.Options>({
 	description: 'List backups available for download'
@@ -38,6 +37,9 @@ export class UserCommand extends Command {
 		if (response.$metadata.httpStatusCode === 200) {
 			// Push contents into fieldItemContents array
 			response.Contents?.forEach((item) => {
+				const date = item.LastModified.toISOString();
+				const formattedDate = DateTime.fromISO(date).toFormat('LLL dd yyyy @ hh:mm a ZZ');
+
 				fieldItemContents.push([
 					{
 						name: 'File Name',
@@ -49,7 +51,7 @@ export class UserCommand extends Command {
 					},
 					{
 						name: 'Uploaded (Last Modified)',
-						value: `${moment(item.LastModified).format('MMM DD YYYY @ hh:mm a Z')}`
+						value: `${formattedDate}`
 					},
 					{
 						name: 'Download',

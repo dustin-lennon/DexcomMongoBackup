@@ -2,9 +2,9 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
 import { Document, MongoClient, ServerApiVersion } from 'mongodb';
 import { envParseString } from '@skyra/env-utilities';
-import { APIApplicationCommandOptionChoice, EmbedBuilder, Message } from 'discord.js';
+import { type APIApplicationCommandOptionChoice, EmbedBuilder, type Message } from 'discord.js';
 import { validateDateFormat, validateDate } from '#lib/util/date';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 
 @ApplyOptions<Command.Options>({
 	description: 'Query MongoDB collections data'
@@ -70,7 +70,7 @@ export class UserCommand extends Command {
 					// First make sure that the date passed in passes the necessary formatting & make sure the date is a valid date
 					date = validateDateFormat(dateParam)
 						? validateDate(dateParam)
-							? new Date(dateParam).getTime()
+							? DateTime.fromFormat(dateParam, 'yyyy-LL-dd').toMillis()
 							: interaction.editReply('Not a valid date')
 						: interaction.editReply('Please enter date in the format of YYYY-MM-DD');
 
@@ -93,9 +93,10 @@ export class UserCommand extends Command {
 						.setColor(0xffff00)
 						.addFields(fieldItems)
 						.setFooter({
-							text: `The ${selectedCollection} collection returns ${countEntries.toLocaleString()} results since ${moment(
-								dateParam
-							).format('MMM DD YYYY')}`
+							text: `The ${selectedCollection} collection returns ${countEntries.toLocaleString()} results since ${DateTime.fromFormat(
+								dateParam,
+								'yyyy-LL-dd'
+							).toFormat('LLL dd yyyy')}`
 						});
 
 					break;
@@ -103,7 +104,7 @@ export class UserCommand extends Command {
 					// ISO formatted date
 					dateToUTC = validateDateFormat(dateParam)
 						? validateDate(dateParam)
-							? moment(dateParam).toISOString(true)
+							? DateTime.fromFormat(dateParam, 'yyyy-LL-dd').toISO()
 							: interaction.editReply('Not a valid date')
 						: interaction.editReply('Please enter date in the format of YYYY-MM-DD');
 
@@ -126,17 +127,18 @@ export class UserCommand extends Command {
 						.setColor(0xffff00)
 						.addFields(fieldItems)
 						.setFooter({
-							text: `The ${selectedCollection} collection returns ${countEntries.toLocaleString()} results since ${moment(
-								dateParam
-							).format('MMM DD YYYY')}`
+							text: `The ${selectedCollection} collection returns ${countEntries.toLocaleString()} results since ${DateTime.fromFormat(
+								dateParam,
+								'yyyy-LL-dd'
+							).toFormat('LLL dd yyyy')}`
 						});
 
 					break;
 				case 'treatments':
-					// ISO formatted date
+					// First make sure that the date passed in passes the necessary formatting & make sure the date is a valid date
 					date = validateDateFormat(dateParam)
 						? validateDate(dateParam)
-							? new Date(dateParam).getTime()
+							? DateTime.fromFormat(dateParam, 'yyyy-LL-dd').toMillis()
 							: interaction.editReply('Not a valid date')
 						: interaction.editReply('Please enter date in the format of YYYY-MM-DD');
 
@@ -147,7 +149,7 @@ export class UserCommand extends Command {
 						for (let item in element) {
 							fieldItems.push({
 								name: `${item}`,
-								value: (element[item] === "") ? 'null' : `${element[item]}`
+								value: element[item] === '' ? 'null' : `${element[item]}`
 							});
 						}
 					});
@@ -159,9 +161,10 @@ export class UserCommand extends Command {
 						.setColor(0xffff00)
 						.addFields(fieldItems)
 						.setFooter({
-							text: `The ${selectedCollection} collection returns ${countEntries.toLocaleString()} results since ${moment(
-								dateParam
-							).format('MMM DD YYYY')}`
+							text: `The ${selectedCollection} collection returns ${countEntries.toLocaleString()} results since ${DateTime.fromFormat(
+								dateParam,
+								'yyyy-LL-dd'
+							).toFormat('LLL dd yyyy')}`
 						});
 
 					break;

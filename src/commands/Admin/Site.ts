@@ -9,9 +9,9 @@ import { spawn } from 'child_process';
 })
 export class UserCommand extends Command {
 	readonly #choices: APIApplicationCommandOptionChoice<string>[] = [
-		{ name: "Start", value: 'start' },
-		{ name: "Stop", value: 'stop' }
-	]
+		{ name: 'Start', value: 'start' },
+		{ name: 'Stop', value: 'stop' }
+	];
 
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand((builder) => {
@@ -46,7 +46,7 @@ export class UserCommand extends Command {
 				pm2.stderr.on('data', (data) => {
 					console.error(`stderr: ${data}`);
 					return interation.followUp(`stderr: ${data}`);
-				})
+				});
 
 				break;
 			case 'stop':
