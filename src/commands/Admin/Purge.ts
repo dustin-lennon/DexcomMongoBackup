@@ -7,7 +7,8 @@ import { validateDateFormat, validateDate } from '#lib/util/date';
 import { DateTime } from 'luxon';
 
 @ApplyOptions<Command.Options>({
-	description: 'Purge database entries'
+	description: 'Purge database entries',
+	preconditions: ['BotOwner']
 })
 export class UserCommand extends Command {
 	private uri =

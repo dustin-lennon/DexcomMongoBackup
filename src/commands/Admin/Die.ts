@@ -16,9 +16,7 @@ export class UserCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		const replyMessage = interaction.reply('Bot is shutting down by administrator...');
-
-		await replyMessage;
+		await interaction.reply('Bot is shutting down by administrator...');
 
 		process.exit(1);
 	}
