@@ -18,7 +18,9 @@
     "clean": "node scripts/build/clean.mjs",
     "start": "node --enable-source-maps dist/index.js",
     "update": "yarn upgrade-interactive",
-    "format": "prettier --write \"src/**/*.{js,ts,json}\""
+    "format": "prettier --write \"src/**/*.{js,ts,json}\"",
+    "pm2-stop:dev": "pm2 stop dexcomMongoBot",
+    "pm2-start:dev": "yarn clean && yarn build && pm2 start ./dist/index.js --name=dexcomMongoBot"
   },
   "dependencies": {
     "@aws-sdk/abort-controller": "^3.272.0",
