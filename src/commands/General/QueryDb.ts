@@ -113,10 +113,35 @@ export class UserCommand extends Command {
 
 					deviceStatusResult.forEach((element) => {
 						for (let item in element) {
-							fieldItems.push({
-								name: `${item}`,
-								value: `${element[item]}`
-							});
+							if (item !== 'uploader') {
+								fieldItems.push({
+									name: `${item}`,
+									value: `${element[item]}`
+								});
+							} else {
+								const uploaderValue = element[item];
+
+								const uploaderItems: { name: string; value: string; inline: boolean; } = {
+									name: item,
+									value: '\u200b',
+									inline: false
+								};
+
+								fieldItems.push(uploaderItems);
+
+								for (let i in uploaderValue) {
+									let uploaderItemProperties: { name: string; value: string; inline: boolean; } = {
+										name: '',
+										value: '',
+										inline: true
+									};
+
+									uploaderItemProperties.name = `${i}`;
+									uploaderItemProperties.value = `${uploaderValue[i]}`;
+
+									fieldItems.push(uploaderItemProperties);
+								}
+							}
 						}
 					});
 
