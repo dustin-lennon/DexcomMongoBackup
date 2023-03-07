@@ -1,15 +1,16 @@
-import { TextChannel, ChannelType, ThreadAutoArchiveDuration } from 'discord.js';
+import { TextChannel, ChannelType, ThreadAutoArchiveDuration, ThreadChannel, SnowflakeUtil } from 'discord.js';
 import { blue, magenta, magentaBright, white } from 'colorette';
 import { mkdirp } from 'mkdirp';
 import { spawn } from 'child_process';
 import { S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
+import { envParseString } from '@skyra/env-utilities';
+import { DateTime } from 'luxon';
 
 import * as moment from 'moment';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { envParseString } from '@skyra/env-utilities';
 
 const dev = process.env.NODE_ENV !== 'production';
 const S3 = new S3Client({
@@ -23,8 +24,15 @@ export class MongoBackup {
 		this.dexChannel = channel;
 	}
 
-	public async backup() {
-		let thread;
+	/**
+	 * It creates a backup directory, runs a mongodump command to backup the database, compresses the
+	 * backup into a 7z archive, uploads the archive to an Amazon S3 bucket, and then deletes the 7z
+	 * archive
+	 *
+	 * @return  {Promise<void>}
+	 */
+	public async backup(): Promise<void> {
+		let thread: ThreadChannel<false>;
 		let tstamp = moment().format('YYYYMMDD');
 
 		// Base backup directory
@@ -48,7 +56,8 @@ export class MongoBackup {
 				name: `Mongo DB Backup - ${moment().format('MM.DD.YYYY')}`,
 				autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
 				reason: `Backup Messages Generated for ${moment().format('MM.DD.YYYY')}`,
-				type: ChannelType.PrivateThread
+				type: ChannelType.PrivateThread,
+				invitable: false
 			});
 		} else {
 			thread = threadExists;
@@ -61,7 +70,7 @@ export class MongoBackup {
 				console.log(
 					String.raw`
 ${line01} ${pad}${blc('Backup directory does not currently exist. Creating backup directory to write to...')}
-                    `.trim()
+					`.trim()
 				);
 
 				thread.send('Backup directory does not currently exist. Creating backup directory to write to...');
@@ -79,7 +88,7 @@ ${line01} ${pad}${blc('Backup directory does not currently exist. Creating backu
 						String.raw`
 ${line01} ${pad}${blc('There was a problem creating the backup directory')}
 ${line02} ${pad}${blc(`Error: ${err.message}`)}
-                            `.trim()
+							`.trim()
 					);
 					await thread.send(`There was a problem creating the backup directory\n${err.message}`);
 				}
@@ -87,7 +96,7 @@ ${line02} ${pad}${blc(`Error: ${err.message}`)}
 				console.log(
 					String.raw`
 ${line01} ${pad}${blc('Backup directory does not currently exist. Creating backup directory to write to...')}
-                    `.trim()
+					`.trim()
 				);
 
 				thread.send('Backup directory does not currently exist. Creating backup directory to write to...');
@@ -102,7 +111,7 @@ ${line01} ${pad}${blc('Backup directory does not currently exist. Creating backu
 						String.raw`
 ${line01} ${pad}${blc('There was a problem creating the backup directory')}
 ${line02} ${pad}${blc(`Error: ${err.message}`)}
-                            `.trim()
+							`.trim()
 					);
 					await thread.send(`There was a problem creating the backup directory\n${err.message}`);
 				}
@@ -215,8 +224,44 @@ ${line02} ${pad}${blc(`Error: ${err.message}`)}
 		});
 	}
 
-	public async threadPurge() {
-		const threads = this.dexChannel.threads.cache.filter((x) => console.log(x));
-		console.log(`Threads: ${JSON.stringify(threads)}`);
+	/**
+	 * Archive threads older than a day
+	 *
+	 * @return  {[string]}  Return string of archived threads
+	 */
+	public async archiveThreads(): Promise<string> {
+		// Get active threads
+		const threads = await this.dexChannel.threads.fetchActive(true);
+		let threadCount = 0;
+
+		// Archive thread after a day
+		const dayDate = +moment().subtract(1, 'day');
+
+		threads.threads.forEach(thread => {
+			if (thread.createdTimestamp < dayDate) {
+				thread.setArchived(true, 'Archiving backup thread after open 1 day or longer...');
+				threadCount++;
+			}
+		});
+
+		return `${threadCount} threads archived`;
+	}
+
+	public async deleteThreads(): Promise<string> {
+		const removeDate = DateTime.now().minus({ days: 8 }).toMillis();
+		let threadCount = 0;
+
+		const archivedThreads = await this.dexChannel.threads.fetchArchived({
+			type: 'private',
+			fetchAll: true,
+			before: removeDate
+		}, true);
+
+		archivedThreads.threads.forEach(thread => {
+			// thread.delete('Download link no longer exists.. removing thread');
+			threadCount++
+		});
+
+		return `${threadCount} threads deleted due to invalid download links`
 	}
 }

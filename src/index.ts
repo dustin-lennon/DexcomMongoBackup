@@ -20,6 +20,7 @@ const main = async () => {
 		if (dexChan?.isTextBased()) {
 			// Run the scheduled task that will run nightly at 11:59 pm
 			schedule(backupTime, () => {
+				dexChan.send('Starting nighly backup, thread archive, and thread purge...');
 				backupDBProcess(dexChan);
 			});
 		}
@@ -34,7 +35,7 @@ const backupDBProcess = async (channel) => {
 	const backupProcess = new MongoBackup(channel);
 
 	await backupProcess.backup();
-	// await backupProcess.threadPurge();
+	await backupProcess.archiveThreads();
 };
 
 void main();
