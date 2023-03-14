@@ -1,14 +1,36 @@
 import '#lib/setup';
 
 import { schedule } from 'node-cron';
-import { backupTime } from '#lib/constants';
+import { backupTime, rootFolder } from '#lib/constants';
 import { MongoBackup } from '#lib/backupDB';
 import { DexcomMongoClient } from './DexcomMongoClient';
 import { envParseString } from '@skyra/env-utilities';
+import { RewriteFrames } from '@sentry/integrations';
+import { container } from '@sapphire/framework';
+
+import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
 
 const client = new DexcomMongoClient();
 
 const main = async () => {
+	// Load in Sentry for error logging
+	if (envParseString('SENTRY_URL')) {
+		Sentry.init({
+			dsn: envParseString('SENTRY_URL'),
+			tracesSampleRate: 1.0,
+			environment: envParseString('NODE_ENV'),
+			integrations: [
+				new Sentry.Integrations.Modules(),
+				new Sentry.Integrations.FunctionToString(),
+				new Sentry.Integrations.LinkedErrors(),
+				new Sentry.Integrations.Console(),
+				new Sentry.Integrations.Http({ breadcrumbs: true, tracing: true }),
+				new RewriteFrames({ root: rootFolder })
+			]
+		});
+	}
+
 	try {
 		client.logger.info('Logging in');
 		await client.login();
@@ -25,7 +47,7 @@ const main = async () => {
 			});
 		}
 	} catch (error) {
-		client.logger.fatal(error);
+		container.logger.error(error);
 		client.destroy();
 		process.exit(1);
 	}
@@ -38,4 +60,4 @@ const backupDBProcess = async (channel) => {
 	await backupProcess.archiveThreads();
 };
 
-void main();
+main().catch(container.logger.error.bind(container.logger));
