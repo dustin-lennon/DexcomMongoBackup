@@ -1,4 +1,4 @@
-import { ApplyOptions } from '@sapphire/decorators';
+import { ApplyOptions, RequiresClientPermissions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
 import { Document, MongoClient, ServerApiVersion } from 'mongodb';
 import { envParseString } from '@skyra/env-utilities';
@@ -44,6 +44,7 @@ export class UserCommand extends Command {
 		);
 	}
 
+	@RequiresClientPermissions(['EmbedLinks'])
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		await interaction.deferReply();
 

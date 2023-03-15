@@ -3,7 +3,7 @@ import { envParseString } from '@skyra/env-utilities';
 import { ListObjectsCommand, S3Client } from '@aws-sdk/client-s3';
 import { filesize } from 'filesize';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
-import { ApplyOptions } from '@sapphire/decorators';
+import { ApplyOptions, RequiresClientPermissions } from '@sapphire/decorators';
 import { DateTime } from 'luxon';
 
 @ApplyOptions<Command.Options>({
@@ -23,6 +23,7 @@ export class UserCommand extends Command {
 		});
 	}
 
+	@RequiresClientPermissions(['EmbedLinks'])
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		const params = {
 			Bucket: envParseString('AWS_S3_BUCKET')

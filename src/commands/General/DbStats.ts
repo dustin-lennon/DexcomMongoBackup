@@ -1,4 +1,4 @@
-import { ApplyOptions } from '@sapphire/decorators';
+import { ApplyOptions, RequiresClientPermissions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
 import { envParseNumber, envParseString } from '@skyra/env-utilities';
 import { EmbedBuilder } from 'discord.js';
@@ -24,6 +24,7 @@ export class UserCommand extends Command {
 		});
 	}
 
+	@RequiresClientPermissions(['EmbedLinks'])
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
 		// Establish the embed
 		const embed = new EmbedBuilder();
