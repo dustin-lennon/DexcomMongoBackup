@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "repository": "https://github.com/dustin-lennon/DexcomMongoBackup",
-  "author": "Dustin Lennon",
+  "author": "Dustin Lennon <dustin.lennon@stelth2000inc.com>",
   "license": "UNLICENSE",
   "keywords": [
     "Mongo",

@@ -58,6 +58,7 @@ const backupDBProcess = async (channel) => {
 
 	await backupProcess.backup();
 	await backupProcess.archiveThreads();
+	await backupProcess.deleteThreads();
 };
 
 main().catch(container.logger.error.bind(container.logger));

@@ -1,4 +1,4 @@
-import { TextChannel, ChannelType, ThreadAutoArchiveDuration, ThreadChannel, SnowflakeUtil } from 'discord.js';
+import { TextChannel, ChannelType, ThreadAutoArchiveDuration, ThreadChannel } from 'discord.js';
 import { blue, magenta, magentaBright, white } from 'colorette';
 import { mkdirp } from 'mkdirp';
 import { spawn } from 'child_process';
@@ -258,7 +258,7 @@ ${line02} ${pad}${blc(`Error: ${err.message}`)}
 		}, true);
 
 		archivedThreads.threads.forEach(thread => {
-			// thread.delete('Download link no longer exists.. removing thread');
+			thread.delete('Download link no longer exists.. removing thread');
 			threadCount++
 		});
 
