@@ -1,5 +1,6 @@
 import { OWNERS } from '#lib/setup';
-import { AllFlowsPrecondition, ContextMenuCommand, MessageCommand, PreconditionContext, PreconditionResult } from '@sapphire/framework';
+import { AllFlowsPrecondition } from '@sapphire/framework';
+import type { ContextMenuCommand, MessageCommand, PreconditionContext, PreconditionResult } from '@sapphire/framework';
 import type { CacheType, CommandInteraction, ContextMenuCommandInteraction, Message, Snowflake } from 'discord.js';
 
 export class UserPrecondition extends AllFlowsPrecondition {

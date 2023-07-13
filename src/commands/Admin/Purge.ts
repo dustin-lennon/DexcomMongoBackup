@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
-import { Document, MongoClient, ServerApiVersion } from 'mongodb';
+import { type Document, MongoClient, ServerApiVersion } from 'mongodb';
 import { envParseString } from '@skyra/env-utilities';
 import type { APIApplicationCommandOptionChoice, Message } from 'discord.js';
 import { validateDateFormat, validateDate } from '#lib/util/date';
