@@ -1,0 +1,24 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"esModuleInterop": false,
+		"experimentalDecorators": true,
+		"noImplicitReturns": false,
+		"noImplicitAny": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"outDir": "../dist",
+		"removeComments": true,
+		"rootDir": ".",
+		"skipLibCheck": true,
+		"strict": false,
+		"tsBuildInfoFile": "../dist/.tsbuildinfo",
+		"paths": {
+			"#lib/*": ["lib/*"],
+			"#utils/*": ["lib/util/*"]
+		}
+	},
+	"include": [".", "./**/*.json"],
+	"exclude": ["./tsconfig.json"]
+}
